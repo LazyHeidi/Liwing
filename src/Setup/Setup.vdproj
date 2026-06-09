@@ -591,6 +591,20 @@
             "Icon" = "8:_117A3CB2E7DB437DA308352AD84E4A14"
             "Feature" = "8:"
             }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4F8D2A6D9B1C4F4BB7A1E3D6C9A025B8"
+            {
+            "Name" = "8:Liwing(slack safe encoding)"
+            "Arguments" = "8:-s"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_322E3AA380A34E3094DED54C8CA1072E"
+            "Folder" = "8:_8DF2E4975FAD4ACAB7CD3CAB78B69488"
+            "WorkingFolder" = "8:_EF824E82EFBB4406B761E802A0707C41"
+            "Icon" = "8:_117A3CB2E7DB437DA308352AD84E4A14"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
