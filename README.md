@@ -34,6 +34,10 @@ For example, if you want to create a link to a file path of  `\\servername\test.
 例えば、`\\servername\test.xlsx` のファイルパスのリンクを作成したい場合、そのファイルを選択して、エクスプローラーのコンテキストメニューの [送る] - [Liwing] というメニューを実行します。  
 (Liwingをインストールすることで、[送る]メニューが追加されます)  
 
+If Slack stops auto-linking the URL in the middle because the path contains Japanese punctuation, brackets, spaces, or similar characters, use `Liwing(slack safe encoding)` from the Send menu. It URL-encodes only those Slack-sensitive characters while leaving the rest of the URL readable.
+
+Slackで日本語の句読点、括弧、スペースなどを含むパスのURLが途中でリンク切れになる場合は、[送る]メニューの `Liwing(slack safe encoding)` を使ってください。Slackで途切れやすい文字だけをURLエンコードし、それ以外のURLは読みやすいままにします。
+
 ![image.png](Images/SendToMenu.png)  
 
 When you do the above, a URL called `lw://file/servername/test.xlsx` is copied to the clipboard, using a custom URL scheme.  

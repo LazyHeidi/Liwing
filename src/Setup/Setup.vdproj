@@ -231,7 +231,7 @@
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Liwing, Version=1.0.0.51116, Culture=neutral, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:Liwing, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
                     "_322E3AA380A34E3094DED54C8CA1072E"
@@ -356,15 +356,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Liwing"
-        "ProductCode" = "8:{1908FEF3-3C6E-47A2-A18F-6A7598622819}"
-        "PackageCode" = "8:{F73062C5-4BA0-4237-A362-C305ACB0B39B}"
+        "ProductCode" = "8:{8F3E1B9C-7B0E-4B75-A6DF-698CE987A7D4}"
+        "PackageCode" = "8:{85CE51E7-3EFA-4E87-9356-1393D994D31B}"
         "UpgradeCode" = "8:{7632C5DF-B92F-459B-B086-48CEE7E34CE7}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.0.2"
         "Manufacturer" = "8:Yusuke Kojima"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -581,6 +581,20 @@
             {
             "Name" = "8:Liwing(url encoding)"
             "Arguments" = "8:-e"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_322E3AA380A34E3094DED54C8CA1072E"
+            "Folder" = "8:_8DF2E4975FAD4ACAB7CD3CAB78B69488"
+            "WorkingFolder" = "8:_EF824E82EFBB4406B761E802A0707C41"
+            "Icon" = "8:_117A3CB2E7DB437DA308352AD84E4A14"
+            "Feature" = "8:"
+            }
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_4F8D2A6D9B1C4F4BB7A1E3D6C9A025B8"
+            {
+            "Name" = "8:Liwing(slack safe encoding)"
+            "Arguments" = "8:-s"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"

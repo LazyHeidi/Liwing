@@ -28,6 +28,21 @@ namespace Liwing
 		const string URLEncodeParam = "-e";
 
 		/// <summary>
+		/// Slackでリンクが途切れやすい文字のみURLエンコードするパラメータ文字列
+		/// </summary>
+		const string SlackSafeEncodeParam = "-s";
+
+		/// <summary>
+		/// コピーするURLのエンコード方法
+		/// </summary>
+		private enum UrlEncodeMode
+		{
+			None,
+			Full,
+			SlackSafe,
+		}
+
+		/// <summary>
 		/// Fileスキーマ
 		/// </summary>
 		private const string FileSchema = "//file/";
@@ -36,6 +51,20 @@ namespace Liwing
 		/// 半角スペースのエンコード文字列
 		/// </summary>
 		private static readonly string SpaceEncodeValue = HttpUtility.UrlEncode(" ");
+
+		/// <summary>
+		/// Slackの自動リンク判定でURLが途切れやすいため、SlackSafeモードでURLエンコードする文字
+		/// </summary>
+		private static readonly HashSet<char> SlackSafeEncodeCharacters = new HashSet<char>
+		{
+			'・', '、', '。', '，', '．',
+			'「', '」', '『', '』', '（', '）', '【', '】', '〔', '〕',
+			'《', '》', '〈', '〉',
+			'！', '？', '：', '；',
+			'～',
+			'　',
+			' ',
+		};
 
 		/// <summary>
 		/// アプリケーションの開始
@@ -63,7 +92,7 @@ namespace Liwing
 
 				// [送る]メニューから複数のファイルを指定された場合、
 				// 複数のファイルパスが指定されているため、それに対応するように各引数に対して実行する
-				bool urlEncode = false;
+				UrlEncodeMode urlEncodeMode = UrlEncodeMode.None;
 				StringBuilder copyString =  new StringBuilder();
 				for (int index = 1; index < args.Length; index++)
 				{
@@ -76,12 +105,17 @@ namespace Liwing
 					else if (arg == URLEncodeParam)
 					{
 						// URLエンコードを指定するパラメータが指定されている場合は、以降のパスをURLエンコードする
-						urlEncode = true;
+						urlEncodeMode = UrlEncodeMode.Full;
+					}
+					else if (arg == SlackSafeEncodeParam)
+					{
+						// Slackでリンクが途切れやすい文字のみURLエンコードする
+						urlEncodeMode = UrlEncodeMode.SlackSafe;
 					}
 					else
 					{
 						// カスタムURLでなければ、クリップボードにコピーするためのファイルパス文字列を取得する
-						var copyFilePath = GetCopyFilePath(arg, urlEncode);
+						var copyFilePath = GetCopyFilePath(arg, urlEncodeMode);
 						copyString.AppendLine(copyFilePath);
 					}
 				}
@@ -139,8 +173,8 @@ namespace Liwing
 		/// 指定された引数を、コピーする文字列に変換する
 		/// </summary>
 		/// <param name="arg">指定された引数</param>
-		/// <param name="urlEncode">urlエンコードするか</param>
-		private static string GetCopyFilePath(string arg, bool urlEncode)
+		/// <param name="urlEncodeMode">URLエンコード方法</param>
+		private static string GetCopyFilePath(string arg, UrlEncodeMode urlEncodeMode)
 		{
 			// カスタムURL指定でない場合
 			// 送られた引数がファイルパスだと仮定して、そのパスをカスタムURLスキーマに変換した文字列をクリップボードにコピーする
@@ -148,16 +182,52 @@ namespace Liwing
 			// URL形式とするため、バックスラッシュをスラッシュに変換
 			var urlFilePath = arg.Replace("\\", "/");
 
-			// 2バイト文字などをURLエンコードした文字列に変換
-			// エンコードしない場合は、半角スペースのみエンコードする(スペースのままだと、引数として渡す時に分離されてしまうため)
-			var endodeUrl = urlEncode ? HttpUtility.UrlEncode(urlFilePath) : urlFilePath.Replace(" ", SpaceEncodeValue);
+			// 指定されたエンコード方法でURL文字列を変換
+			var encodeUrl = EncodeUrlFilePath(urlFilePath, urlEncodeMode);
 
 			// カスタムURLスキーマとfileスキーマを加える
-			var copyString = $"{CustomURLSchema}{FileSchema}{endodeUrl}";
+			var copyString = $"{CustomURLSchema}{FileSchema}{encodeUrl}";
 #if DEBUG
 			MessageBox.Show($"Clipboard Copy : {copyString}");
 #endif
 			return copyString;
 		}
+
+		/// <summary>
+		/// 指定されたエンコード方法でURL用のファイルパスをエンコードする
+		/// </summary>
+		/// <param name="urlFilePath">URL形式に変換済みのファイルパス</param>
+		/// <param name="urlEncodeMode">URLエンコード方法</param>
+		private static string EncodeUrlFilePath(string urlFilePath, UrlEncodeMode urlEncodeMode)
+		{
+			switch (urlEncodeMode)
+			{
+				case UrlEncodeMode.Full:
+					return HttpUtility.UrlEncode(urlFilePath);
+				case UrlEncodeMode.SlackSafe:
+					return EncodeSlackSafeCharacters(urlFilePath);
+				default:
+					// エンコードしない場合は、半角スペースのみエンコードする(スペースのままだと、引数として渡す時に分離されてしまうため)
+					return urlFilePath.Replace(" ", SpaceEncodeValue);
+			}
+		}
+
+		/// <summary>
+		/// Slackの自動リンク判定でURLが途切れやすい文字のみURLエンコードする
+		/// </summary>
+		/// <param name="urlFilePath">URL形式に変換済みのファイルパス</param>
+		private static string EncodeSlackSafeCharacters(string urlFilePath)
+		{
+			var encodedUrlFilePath = new StringBuilder();
+			foreach (var character in urlFilePath)
+			{
+				encodedUrlFilePath.Append(SlackSafeEncodeCharacters.Contains(character)
+					? HttpUtility.UrlEncode(character.ToString())
+					: character.ToString());
+			}
+
+			return encodedUrlFilePath.ToString();
+		}
+
 	}
 }
