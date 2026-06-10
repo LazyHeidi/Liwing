@@ -15,15 +15,19 @@ Liwingとは、Slack で UNCパスのリンクをクリックして直接ファ�
 ## Basic Usage (基本的な使い方)
 
 ### How to install (インストール方法)
-Download and install LiwingSetup.msi from the link below, it is a Windows-only tool.  
+Download and install LiwingSetup.msi from the link below, it is a Windows-only tool. Installing the MSI adds Liwing shortcuts to Explorer's Send To menu.
 
-以下のリンクから LiwingSetup.msi をダウンロードしてインストールしてください。Windows専用のツールです。 
+以下のリンクから LiwingSetup.msi をダウンロードしてインストールしてください。Windows専用のツールです。MSIをインストールすると、エクスプローラーの [送る] メニューにLiwingのショートカットが追加されます。
 
 [LiwingSetup.msi](https://github.com/kojimadev/Liwing/raw/master/src/ReleaseProduct/LiwingSetup.msi)
 
 If the window shown below appears when running the installer, click the [More Info] link and then click the [Run] button.
 
 インストーラの実行時に下図のウィンドウが表示された場合は、[詳細情報]リンクをクリックした上で[実行]ボタンを押してください。
+
+If the Send To shortcuts do not appear after installing, uninstall Liwing once and reinstall the latest LiwingSetup.msi.
+
+インストール後に [送る] メニューのショートカットが表示されない場合は、Liwingを一度アンインストールしてから最新の LiwingSetup.msi を再インストールしてください。
 
 <img src="Images/install1.png" width="333"> <img src="Images/install2.png" width="333">
 
@@ -33,6 +37,10 @@ For example, if you want to create a link to a file path of  `\\servername\test.
 
 例えば、`\\servername\test.xlsx` のファイルパスのリンクを作成したい場合、そのファイルを選択して、エクスプローラーのコンテキストメニューの [送る] - [Liwing] というメニューを実行します。  
 (Liwingをインストールすることで、[送る]メニューが追加されます)  
+
+If Slack stops auto-linking the URL in the middle because the path contains Japanese punctuation, brackets, spaces, or similar characters, use `Liwing(slack safe encoding)` from the Send menu. It URL-encodes only those Slack-sensitive characters while leaving the rest of the URL readable.
+
+Slackで日本語の句読点、括弧、スペースなどを含むパスのURLが途中でリンク切れになる場合は、[送る]メニューの `Liwing(slack safe encoding)` を使ってください。Slackで途切れやすい文字だけをURLエンコードし、それ以外のURLは読みやすいままにします。
 
 ![image.png](Images/SendToMenu.png)  
 
