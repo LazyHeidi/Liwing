@@ -380,7 +380,7 @@
         "UseSystemSearchPath" = "11:TRUE"
         "TargetPlatform" = "3:0"
         "PreBuildEvent" = "8:"
-        "PostBuildEvent" = "8:"
+        "PostBuildEvent" = "8:cscript.exe //nologo \"$(ProjectDir)DisableAdvertisedShortcuts.js\" \"$(BuiltOuputPath)\""
         "RunPostBuildEvent" = "3:0"
         }
         "Registry"
